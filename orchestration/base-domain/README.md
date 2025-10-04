@@ -1,21 +1,21 @@
 # base-domain
 
-[![PyPI - Version](https://img.shields.io/pypi/v/base-domain.svg)](https://pypi.org/project/base-domain)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/base-domain.svg)](https://pypi.org/project/base-domain)
+## domains
 
------
+### `base_domain.py` standardization
 
-## Table of Contents
+#### data flow -- core domain interfaces
 
-- [Installation](#installation)
-- [License](#license)
+```
+domain.on_handle(<input>)
 
-## Installation
-
-```console
-pip install base-domain
+domain.on_handled(<_cb-for-output)
 ```
 
-## License
+#### observability flow -- core domain monitoring interfaces
 
-`base-domain` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+```
+domain.on_completed(monitor.on_completed)
+
+domain.on_error(monitor.on_error)
+```
