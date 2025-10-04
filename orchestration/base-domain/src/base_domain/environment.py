@@ -21,5 +21,8 @@ def get_environment() -> Environment:
     mode = env.get("MODE", "dev")
     zmq_host = env.get("ZMQ_HOST", "127.0.0.1")
     zmq_port = int(env.get("ZMQ_PORT", "5555"))
+    zmq_address = env.get("ZMQ_ADDRESS", f"tcp://{zmq_host}:{zmq_port}")
 
-    return Environment(MODE=Mode(mode), ZMQ_HOST=zmq_host, ZMQ_PORT=zmq_port)
+    return Environment(
+        MODE=Mode(mode), ZMQ_HOST=zmq_host, ZMQ_PORT=zmq_port, ZMQ_ADDRESS=zmq_address
+    )
