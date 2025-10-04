@@ -1,5 +1,7 @@
 # base-domain
 
+[details](./analysis.md)
+
 ## architecture
 
 **[Orchestrator](./src/base_domain/orchestrator.py)** wires domains via callbacks:
