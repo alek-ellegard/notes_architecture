@@ -38,6 +38,8 @@ class BaseDomain(ABC, Generic[TInput, TOutput]):
         """Template method with timing and error handling"""
         start = time()
         try:
+            # calls _execute
+            # - domains only need to implement _execute, and the measuring will be automatic
             result = await self._execute(data)
             duration = time() - start
 
