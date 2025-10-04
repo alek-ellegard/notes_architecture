@@ -1,0 +1,68 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "base-domain"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "alek-ellegard", email = "alek-ellegard@caesari.se" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "mypy>=1.14.1",
+    "pytest>=8.3.5",
+    "ruff>=0.13.3",
+]
+
+[project.urls]
+Documentation = "https://github.com/alek-ellegard/base-domain#readme"
+Issues = "https://github.com/alek-ellegard/base-domain/issues"
+Source = "https://github.com/alek-ellegard/base-domain"
+
+[tool.hatch.version]
+path = "src/base_domain/__about__.py"
+
+[tool.hatch.envs.defaults]
+installer = "uv"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/base_domain tests}"
+
+[tool.coverage.run]
+source_pkgs = ["base_domain", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/base_domain/__about__.py",
+]
+
+[tool.coverage.paths]
+base_domain = ["src/base_domain", "*/base-domain/src/base_domain"]
+tests = ["tests", "*/base-domain/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
