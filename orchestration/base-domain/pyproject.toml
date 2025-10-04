@@ -4,57 +4,51 @@ build-backend = "hatchling.build"
 
 [project]
 name = "base-domain"
-dynamic = ["version"]
-description = ''
+version = "0.1.0"
 readme = "README.md"
 requires-python = ">=3.8"
-license = "MIT"
-keywords = []
+keywords = ["orchestration", "callbacks", "base_domain"]
 authors = [
   { name = "alek-ellegard", email = "alek-ellegard@caesari.se" },
 ]
-classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
-]
 dependencies = [
+    "uvloop>=0.21.0",
+    "orjson>=3.10.15",
+    "pyzmq>=27.1.0",
+    "asyncio>=4.0.0",
+    "pyzmq>=27.1.0",
+]
+
+[dependency-groups]  # modern uv pattern for dev deps
+dev = [
     "mypy>=1.14.1",
     "pytest>=8.3.5",
     "ruff>=0.13.3",
 ]
 
-[project.urls]
-Documentation = "https://github.com/alek-ellegard/base-domain#readme"
-Issues = "https://github.com/alek-ellegard/base-domain/issues"
-Source = "https://github.com/alek-ellegard/base-domain"
-
-[tool.hatch.version]
-path = "src/base_domain/__about__.py"
-
-[tool.hatch.envs.defaults]
-installer = "uv"
+[project.scripts]
+run-base-domain = "base_domain.entrypoint:run"
 
 [tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
-]
+dependencies = ["mypy>=1.14.1"]
+
 [tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/base_domain tests}"
+check = "mypy --install-types --non-interactive {args:src tests}"
+
+[tool.hatch.envs.dev]
+installer = "uv"
+dependencies = [
+    "mypy>=1.14.1",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.25.2",
+    "ruff>=0.13.3",
+]
+
 
 [tool.coverage.run]
 source_pkgs = ["base_domain", "tests"]
 branch = true
 parallel = true
-omit = [
-  "src/base_domain/__about__.py",
-]
 
 [tool.coverage.paths]
 base_domain = ["src/base_domain", "*/base-domain/src/base_domain"]

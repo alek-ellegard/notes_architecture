@@ -15,7 +15,7 @@ remove-env: clean
 
 # Environment setup
 env:
-	hatch env create
+	hatch env create dev
 
 setup: env
 
@@ -68,14 +68,26 @@ ci-fix: lint types test
 # Testing
 test:
 	hatch run dev:pytest tests/ -v 2>/dev/null || echo "No tests found"
+
 test-setup-show: ## show test setup
 	hatch run dev:pytest tests/ --setup-show -v 2>/dev/null || echo "No tests found"
 
 test-f: ## test specific file -- test-f f=<file_path>
 	hatch run dev:pytest $(f) -v 2>/dev/null || echo "No tests found"
+
+test-integration: ## run integration tests
+	hatch run dev:pytest tests/integration/ -v
+
+test-integration-zmq: ## run ZMQ pipeline integration test
+	hatch run dev:pytest tests/integration/test_zmq_pipeline.py -v
+
+# Publisher for manual testing
+test-integration-publish: ## run ZMQ publisher (for manual testing - run 'make run' first)
+	hatch run dev:python tests/integration/zmq_publisher.py
+
 test-domains:
 	make test-f f=src/$(project)/features/zmq
 	make test-f f=src/$(project)/features/processor
 	make test-f f=src/$(project)/features/metrics
 	make test-f f=src/$(project)/features/self-metrics
-	
+
