@@ -2,7 +2,7 @@
 
 Demonstration of singleton pattern implementations in Python, explicitly showing pros/cons of different approaches.
 
-> `make demo`
+-> `make demo`
 
 ## Installation
 
