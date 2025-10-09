@@ -2,6 +2,8 @@
 
 Demonstration of singleton pattern implementations in Python, explicitly showing pros/cons of different approaches.
 
+> `make demo`
+
 ## Installation
 
 ```bash
@@ -25,6 +27,7 @@ uv run ruff check src/ tests/
 ## The Two Approaches
 
 ### Approach 1: `__new__` Override
+
 **Status: ⚠️ Problematic**
 
 ```python
@@ -42,12 +45,14 @@ class SymbolMap:
 ```
 
 **Problems:**
+
 - `__init__` runs on every instantiation → silent data corruption
 - Race conditions without explicit locking
 - Testing requires manual cleanup
 - Initialization parameters silently ignored/overwrite
 
 ### Approach 2: Module-level with Factory
+
 **Status: ✅ Recommended**
 
 ```python
@@ -69,6 +74,7 @@ def get_symbol_map(data=None):
 ```
 
 **Advantages:**
+
 - Clean separation of concerns
 - `__init__` only runs once
 - Thread-safe by design
@@ -112,12 +118,14 @@ config2 = get_config_manager("prod.yml")  # RAISES ValueError - explicit failure
 ## When To Use Singletons
 
 **Consider alternatives first:**
+
 - Dependency injection
 - Module-level constants
 - Class variables
 - Configuration objects passed explicitly
 
 **Valid use cases:**
+
 - Resource pools (connection pools)
 - Hardware interface abstractions
 - Application-wide caches
