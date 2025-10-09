@@ -5,57 +5,65 @@ build-backend = "hatchling.build"
 [project]
 name = "singleton-patterns"
 dynamic = ["version"]
-description = ''
+description = "Demonstration of singleton patterns in Python with pros/cons"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = "MIT"
-keywords = []
 authors = [
   { name = "alek-ellegard", email = "alek-ellegard@caesari.se" },
 ]
-classifiers = [
-  "Development Status :: 4 - Beta",
-  "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
-]
-dependencies = []
 
 [project.urls]
-Documentation = "https://github.com/alek-ellegard/singleton-patterns#readme"
-Issues = "https://github.com/alek-ellegard/singleton-patterns/issues"
 Source = "https://github.com/alek-ellegard/singleton-patterns"
 
 [tool.hatch.version]
 path = "src/singleton_patterns/__about__.py"
 
-[tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.3.1",  # for parallel testing
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
 ]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:src/singleton_patterns tests}"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short --strict-markers"
 
 [tool.coverage.run]
-source_pkgs = ["singleton_patterns", "tests"]
+source_pkgs = ["singleton_patterns"]
 branch = true
-parallel = true
-omit = [
-  "src/singleton_patterns/__about__.py",
-]
-
-[tool.coverage.paths]
-singleton_patterns = ["src/singleton_patterns", "*/singleton-patterns/src/singleton_patterns"]
-tests = ["tests", "*/singleton-patterns/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
-  "no cov",
-  "if __name__ == .__main__.:",
-  "if TYPE_CHECKING:",
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
 ]
