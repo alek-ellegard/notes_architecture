@@ -41,8 +41,8 @@ async def test_zmq_pipeline_completion():
     await asyncio.sleep(0.2)
 
     # 3) Assertions
-    assert orchestrator.completed_pipelines >= 3, (
-        f"Expected at least 3 completed pipelines, got {orchestrator.completed_pipelines}"
+    assert orchestrator.monitor.completed_pipelines >= 3, (
+        f"Expected at least 3 completed pipelines, got {orchestrator.monitor.completed_pipelines}"
     )
 
     assert orchestrator.monitor.success_counts["ZMQManager.handle"] >= 3

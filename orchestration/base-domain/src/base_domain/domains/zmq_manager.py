@@ -10,13 +10,16 @@ class ZMQManager(BaseDomain[bytes, dict]):
     def __init__(self, env: Environment) -> None:
         super().__init__()
         self.env = env
-        self.context = zmq.asyncio.Context()
-        self.socket = self.context.socket(zmq.SUB)
-        self.socket.subscribe("")  # Subscribe to all messages
         self.running = False
+        self.context = None
+        self.socket = None
+        self._task = None
 
     def initialize(self) -> None:
         """initialize by binding and creating task"""
+        self.context = zmq.asyncio.Context()
+        self.socket = self.context.socket(zmq.SUB)
+        self.socket.subscribe("")  # Subscribe to all messages
         self.socket.bind(self.env.ZMQ_ADDRESS)
         self._task = asyncio.create_task(self.message_loop())
         self.running = True
@@ -34,5 +37,7 @@ class ZMQManager(BaseDomain[bytes, dict]):
     def shutdown(self) -> None:
         """Clean shutdown"""
         self.running = False
-        self.socket.close()
-        self.context.term()
+        if self.socket:
+            self.socket.close()
+        if self.context:
+            self.context.term()
