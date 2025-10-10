@@ -1,6 +1,6 @@
 # base-domain
 
-[details](./analysis.md)
+[details](./analysis.md) | [testing](./docs/testing-architecture.md)
 
 ## architecture
 
@@ -22,3 +22,15 @@
 - Callbacks: `on_success()`, `on_error()`, `on_pipeline_complete()`
 
 **Pipeline flow**: ZMQ → Processor → Metrics → Exporter (each domain forwards via `handled()`)
+
+## testing
+
+**Base class**: `BaseDomainTest[TInput, TOutput]` provides 6 standard tests for all domains:
+- Inheritance, attributes, methods existence
+- Callback registration (`on_handled`, `on_success`, `on_error`)
+- Handle flow (`handle()` → `_execute()` → `handled()` → `success()`)
+- Error handling and error callback emission
+
+**Writing tests**: Set `DOMAIN_CLASS`, override `_create_test_input()`, inherit all standard tests automatically.
+
+**Run tests**: `make test` (all) | `make test-f f=<file>` (specific) | `make test-integration` (integration)
